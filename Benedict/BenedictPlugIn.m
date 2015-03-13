@@ -66,19 +66,25 @@
     CGFloat blue = 1.0;
     CGFloat green = 1.0;
     
-    if (numberOfComponents == 2) {
-        const CGFloat *components = CGColorGetComponents(self.inputColor);
+    const CGFloat *components = CGColorGetComponents(self.inputColor);
+    
+    if (numberOfComponents == 1) {
         red = components[0];
-        blue = components[0];
         green = components[0];
+        blue = components[0];
         alpha = components[1];
         
-    } else {
-        const CGFloat *components = CGColorGetComponents(self.inputColor);
+    } else if (numberOfComponents == 3) {
         red = components[0];
-        blue = components[1];
-        green = components[2];
+        green = components[1];
+        blue = components[2];
         alpha = components[3];
+        
+    } else if (numberOfComponents == 4) {
+        red = (1.0 - components[0]) * (1.0 - components[3]);
+        green = (1.0 - components[1]) * (1.0 - components[3]);
+        blue = (1.0 - components[2]) * (1.0 - components[3]);
+        alpha = components[4];
     }
     
     NSMutableString *bendictDescription = [NSMutableString string];
